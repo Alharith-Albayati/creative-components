@@ -1,23 +1,23 @@
-import React, { useState } from "react";
+// components/ProgressBar.js
+import { useEffect, useState } from "react";
 
 const ProgressBar = () => {
-  // starting at 1% of the width of the progress bar
-  let [progress, setProgress] = useState(1);
-  function handleClick() {
-    let i = setInterval(() => {
-      setProgress(progress++);
-    }, 100);
-    if (progress == 100) {
-      clearInterval(i);
-    }
-  }
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setProgress((prevProgress) => (prevProgress + 1) % 101);
+    }, 50);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
   return (
-    <>
-      <div className={`bg-gray-300 w-full`}>
-        <div className={`h-[30px] w-[${progress}%] bg-green-500`}></div>
-      </div>
-      <button onClick={handleClick}>Click me</button>
-    </>
+    <div className="fixed top-0 left-0 w-full h-2 bg-blue-500">
+      <div className="h-2 bg-green-500" style={{ width: `${progress}%` }}></div>
+    </div>
   );
 };
 
